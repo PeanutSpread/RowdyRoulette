@@ -5,23 +5,51 @@ using UnityEngine;
 public class Discard : Deck
 {
     // Play card or cards
-    public void Discard(Card card)
+    public void Play(Card card)
     {
 
     }
 
-    public void Discard(List<Card> cards)
+    public void Play(List<Card> cards)
     {
-        switch (cards.Count())
+        switch (cards.Count)
         {
             case 2:
                
-                // TODO: Pick card at random
+                if (SameGroup(cards))
+                {
+                    // TODO: Pick card at random
+                }
                 break;
+            
+            case 3:
+                if (SameGroup(cards))
+                {
+                    // TODO: Request a card of specific type
+                }
+                break;
+            
+            case 5:
+
+                // TODO: Grab a card from discard pile
+                break;
+
+                
         }
     }
 
-
+    private bool SameGroup(List<Card> cards) 
+    {
+        int group = cards[0].GetGroup();
+        foreach (Card card in cards)
+        {
+           if (group != card.GetGroup())
+           {
+                return false;
+           }
+        }
+        return true;
+    }
 
     // Start is called before the first frame update
     void Start()

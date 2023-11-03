@@ -6,10 +6,10 @@ public class Card : MonoBehaviour
 {
 
     private CardType type;
-    private uint group = 0;
+    private int group = 0;
     
     // Return the type of card
-    public cardType GetType() 
+    public CardType GetType() 
     {
         return type;
     }
