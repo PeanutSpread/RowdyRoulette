@@ -2,38 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Card : MonoBehaviour
+public class Card
 {
+    public CardType type { get; set; }
+    public int group { get; set; }
 
-    private CardType type;
-    private int group = 0;
-    
-    // Return the type of card
-    public CardType GetType() 
-    {
-        return type;
-    }
-
-    public int GetGroup() 
-    {
-        return group;
-    }
-
-    // Setting up the card's specific values
-    public void InitCard()
-    {
-
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public GameObject prefab { get; set; }
 }
