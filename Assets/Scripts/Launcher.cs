@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using Photon.Pun;
+using Photon.Realtime;
 using UnityEngine;
 
-public class Launcher : MonoBehaviour {
+public class Launcher : MonoBehaviourPunCallbacks {
     #region Private Serializable Fields
-
+    [Tooltip ("Max players")]
+    [SerializeField]
+    private byte maxPlayersPerRoom = 4;
     #endregion
 
     #region Private Fields
@@ -40,6 +43,29 @@ public class Launcher : MonoBehaviour {
             PhotonNetwork.ConnectUsingSettings ();
             PhotonNetwork.GameVersion = gameVersion;
         }
+    }
+
+    #endregion
+
+    #region MonoBehaviourPunCallbacks Callbacks
+
+    public override void OnConnectedToMaster () {
+        Debug.Log ("OnConnectedToMaster() was called by PUN");
+        PhotonNetwork.JoinRandomRoom ();
+    }
+
+    public override void OnDisconnected (DisconnectCause cause) {
+        Debug.LogWarningFormat ("OnDisconnected() was called by PUN with reason {0}", cause);
+    }
+
+    public override void OnJoinRandomFailed (short returnCode, string message) {
+        Debug.Log ("OnJoinRandomFailed() was called by PUN. No random room available, so we create one.\nCalling: PhotonNetwork.CreateRoom");
+
+        PhotonNetwork.CreateRoom (null, new RoomOptions { MaxPlayers = maxPlayersPerRoom });
+    }
+
+    public override void OnJoinedRoom () {
+        Debug.Log ("OnJoinedRoom() called by PUN. Now this client is in a room.");
     }
 
     #endregion
