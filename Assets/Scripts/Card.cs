@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Card : MonoBehaviour
@@ -7,9 +8,10 @@ public class Card : MonoBehaviour
 
     private CardType type;
     private int group = 0;
+    public Material[] CardFaces = new Material[Enum.GetValues(typeof(CardType)).Length];
     
     // Return the type of card
-    public CardType GetType() 
+    public new CardType GetType() 
     {
         return type;
     }
@@ -20,8 +22,22 @@ public class Card : MonoBehaviour
     }
 
     // Setting up the card's specific values
-    public void InitCard()
+    public void InitCard(CardType cardType, int cardGroup = 0)
     {
+        type = cardType;
+        group = cardGroup;
+        changeFace(type);
+    }
+
+    public void Copy(Card otherCard)
+    {
+        InitCard(otherCard.GetType(), otherCard.GetGroup());
+    }
+
+    private void changeFace(CardType cardType)
+    {
+        GameObject meshObject = gameObject.transform.GetChild(0).gameObject;
+        meshObject.GetComponent<MeshRenderer>().material = CardFaces[(int) type];
 
     }
 

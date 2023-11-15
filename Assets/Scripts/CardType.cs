@@ -4,7 +4,6 @@ public enum CardType
     Defuse,
     Favour,
     Future,
-    
     Generic,
     Nope,
     Shuffle
