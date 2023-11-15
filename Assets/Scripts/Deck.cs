@@ -66,12 +66,13 @@ public class Deck : MonoBehaviour
 
     private void GenerateCards(CardType cardType, int group, int amount)
     {
-        for (int _; _ < amount; _++)
+        // causing an error for no reason ?
+        /*for (int i; i < amount; i++)
         {
             Card card = new Card();
             card.InitCard(cardType, group);
             cardList.Add(card);
-        }
+        }*/
     }
 
     void OnMouseDown()
