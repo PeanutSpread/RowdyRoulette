@@ -18,6 +18,13 @@ public class Launcher : MonoBehaviourPunCallbacks
 
     #endregion
 
+    #region Public Fields
+    [SerializeField]
+    private GameObject controlPanel;
+    [SerializeField]
+    private GameObject progressLabel;
+    #endregion
+
     #region MonoBehaviour CallBacks
     // Start is called before the first frame update
     void Awake()
@@ -31,9 +38,15 @@ public class Launcher : MonoBehaviourPunCallbacks
     #endregion
 
     #region Public Methods
-
+    public void Start()
+    {
+        progressLabel.SetActive(false);
+        controlPanel.SetActive(true);
+    }
     public void Connect()
     {
+        progressLabel.SetActive(true);
+        controlPanel.SetActive(false);
         // we check if we are connected or not, we join if we are , else we initiate the connection to the server.
         if (PhotonNetwork.IsConnected)
         {
@@ -61,6 +74,8 @@ public class Launcher : MonoBehaviourPunCallbacks
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogWarningFormat("OnDisconnected() was called by PUN with reason {0}", cause);
+        progressLabel.SetActive(false);
+        controlPanel.SetActive(true);
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
