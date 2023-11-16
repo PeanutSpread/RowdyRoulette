@@ -40,10 +40,10 @@ public class Discard : Deck
 
     private bool SameGroup(List<Card> cards) 
     {
-        int group = cards[0].GetGroup();
+        int group = cards[0].group;
         foreach (Card card in cards)
         {
-           if (group != card.GetGroup())
+           if (group != card.group)
            {
                 return false;
            }

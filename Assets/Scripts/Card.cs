@@ -6,11 +6,10 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
 
+    public CardType type;
+    public int group = 0;
     public Material[] CardFaces = new Material[Enum.GetValues(typeof(CardType)).Length];
-
-    private CardType type;
-    private int group = 0;
-
+    public GameObject prefab { get; set; }
     
     // Return the type of card
     public new CardType GetType() 
