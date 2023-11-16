@@ -6,9 +6,11 @@ using UnityEngine;
 public class Card : MonoBehaviour
 {
 
+    public Material[] CardFaces = new Material[Enum.GetValues(typeof(CardType)).Length];
+
     private CardType type;
     private int group = 0;
-    public Material[] CardFaces = new Material[Enum.GetValues(typeof(CardType)).Length];
+
     
     // Return the type of card
     public new CardType GetType() 
@@ -26,7 +28,6 @@ public class Card : MonoBehaviour
     {
         type = cardType;
         group = cardGroup;
-        changeFace(type);
     }
 
     public void Copy(Card otherCard)
@@ -34,11 +35,10 @@ public class Card : MonoBehaviour
         InitCard(otherCard.GetType(), otherCard.GetGroup());
     }
 
-    private void changeFace(CardType cardType)
+    public void setFace()
     {
         GameObject meshObject = gameObject.transform.GetChild(0).gameObject;
         meshObject.GetComponent<MeshRenderer>().material = CardFaces[(int) type];
-
     }
 
     // Start is called before the first frame update

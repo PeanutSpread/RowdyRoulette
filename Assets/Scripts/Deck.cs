@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using System.Linq;
 using UnityEngine;
 
 public class Deck : MonoBehaviour
@@ -58,15 +59,37 @@ public class Deck : MonoBehaviour
         
     }
 
-    public void Setup(int players, int deckSize = DEFAULT_DECK_SIZE, int groupAmounts = DEFAULT_GROUP_AMOUNT, float[] cardPercentages = null)
+    private void Setup(int deckSize = DEFAULT_DECK_SIZE, int groupAmounts = DEFAULT_GROUP_AMOUNT, float[] cardPercentages = null)
     {
-        //for Enum.GetValues(typeof(CardType)).Length
+        int groups = 0;
+        CardType[] cardTypes = Enum.GetValues(typeof(CardType)).Cast<CardType>().ToArray();
+        if (cardPercentages == null)
+        {
+            cardPercentages = CARD_PERCENTAGES;
+        }
 
+        for (int i = 2; i < Enum.GetValues(typeof(CardType)).Length; i++)
+        {
+            if (cardTypes[i] == CardType.Generic)
+                groups = groupAmounts;
+
+            GenerateCards(cardTypes[i], groups,(int) (cardPercentages[i-2]*deckSize));
+            groups = 0;
+        }
+
+        Shuffle();
+
+    }
+
+    private void AddBombsAndDefuses(int players) {
+        GenerateCards(CardType.Bomb, 0, players - 1);
+        GenerateCards(CardType.Defuse, 0 , DEFAULT_DEFUSE_AMOUNT - players);
+        Shuffle();
     }
 
     private void GenerateCards(CardType cardType, int group, int amount)
     {
-        for (int _; _ < amount; _++)
+        for (int _ = 0; _ < amount; _++)
         {
             Card card = new Card();
             card.InitCard(cardType, group);
@@ -79,12 +102,16 @@ public class Deck : MonoBehaviour
         Card card = Hit();
         GameObject cardObject = Instantiate(cardPrefab);
         cardObject.GetComponent<Card>().Copy(card);
+        cardObject.GetComponent<Card>().setFace();
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Setup();
         Deal();
+        AddBombsAndDefuses(3);
+        
     }
 
     // Update is called once per frame
