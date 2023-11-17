@@ -94,8 +94,8 @@ public abstract class CardPile : MonoBehaviour
     public void Start()
     {
         BoxCollider cardBox = gameObject.GetComponent<BoxCollider>();
-        cardBox.center = new Vector3(0, 0.0025f, 0);
-        cardBox.size = new Vector3(0.125f, 0.005f, 0.2f);
+        cardBox.size = new Vector3(0.125f * gameObject.transform.localScale.x, 0.005f * gameObject.transform.localScale.y, 0.2f * gameObject.transform.localScale.z);
+        cardBox.center = new Vector3(0, cardBox.size.y/2, 0);
         cardsMeshObject = gameObject.transform.GetChild(0).gameObject;
     }
 

@@ -15,4 +15,17 @@ public class EventManager : MonoBehaviour
 
     public delegate void EndTriggerCollision(GameObject source, GameObject collider);
     public static EndTriggerCollision onEndTriggerCollision;
+
+    public delegate void Bomb();
+    public static Bomb OnBombPull;
+    public static Bomb OnBombDefused;
+    public static Bomb OnBombExplode;
+
+    public delegate void SpecialCard();
+    public static SpecialCard OnFavour;
+    public static SpecialCard OnFuture;
+    public static SpecialCard OnNope;
+    public static SpecialCard OnShuffle;
+
+
 }

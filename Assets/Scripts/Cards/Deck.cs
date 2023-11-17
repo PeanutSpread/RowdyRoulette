@@ -90,6 +90,20 @@ public class Deck : CardPile
         }
     }
 
+    new private void TakeCard()
+    {
+        bool isBomb = false;
+        if (cardList[0].GetType() == CardType.Bomb)
+            isBomb = true;
+
+        base.TakeCard();
+
+        if (isBomb)
+        {
+            EventManager.OnBombPull?.Invoke();
+        }
+    }
+
     void OnMouseDown()
     {
         TakeCard();
