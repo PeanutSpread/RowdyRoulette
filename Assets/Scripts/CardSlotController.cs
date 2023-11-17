@@ -7,13 +7,13 @@ public class CardSlotController : MonoBehaviour
 {
     // Assign on instantitate
     private PlayerController playerController;
-    private Card card;
+    private CardComponent card;
 
     // Always has
     public GameObject cardSlot;
 
     // Start is called before the first frame update
-    public void Initialize(Card card, PlayerController playerController)
+    public void Initialize(CardComponent card, PlayerController playerController)
     {
         this.playerController = playerController;
         this.card = card;

@@ -6,14 +6,14 @@ using UnityEngine;
 
 public class Deck : MonoBehaviour
 {
-    
     private List<Card> cardList = new List<Card>();
     public GameObject cardPrefab;
+    public Material[] CardFaces = new Material[Enum.GetValues(typeof(CardType)).Length];
 
     private const int DEFAULT_DECK_SIZE = 46;
     private const int DEFAULT_GROUP_AMOUNT = 5;
     private const int DEFAULT_DEFUSE_AMOUNT = 6;
-    private readonly float[] CARD_PERCENTAGES = {4/46, 5/46, 20/46, 5/46, 4/46 };
+    private readonly float[] CARD_PERCENTAGES = {4f/46f, 5f/46f, 20f/46f, 5f/46f, 4f/46f };
 
     // Get the remaining amount of cards in the deck
     public int GetCardCount() {
@@ -101,8 +101,8 @@ public class Deck : MonoBehaviour
     {
         Card card = Hit();
         GameObject cardObject = Instantiate(cardPrefab);
-        cardObject.GetComponent<Card>().Copy(card);
-        cardObject.GetComponent<Card>().setFace();
+        cardObject.GetComponent<CardComponent>().Copy(card);
+        cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int) card.GetType()]);
     }
 
     // Start is called before the first frame update

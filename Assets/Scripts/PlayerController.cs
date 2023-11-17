@@ -23,24 +23,24 @@ public class PlayerController : MonoBehaviour
     // Only 1 card can be interacted with at a time
     private GameObject interactableCardObj;
     private GameObject interactableCardSlotObj;
-    private Card interactableCard;
+    private CardComponent interactableCard;
 
     private Player player;
-    private List<Card> hand;
+    private List<CardComponent> hand;
 
     private void Start()
     {
-        hand = new List<Card>();
+        hand = new List<CardComponent>();
         EventManager.onEndInteraction += OnLetGo;
 
         player = new Player();
 
-        Card card = new Card();
+        CardComponent card = new CardComponent();
         card.prefab = testCard;
         AddCardToHand(card);
     }
 
-    public void TakeOutCard(Card card, GameObject cardSlot) 
+    public void TakeOutCard(CardComponent card, GameObject cardSlot) 
     {
         // Simulate taking a card thats in your hand
         if (interactableCardObj != null) 
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour
         interactableCard = card;
     }
 
-    public void AddCardToHand(Card card)
+    public void AddCardToHand(CardComponent card)
     {
         // Add a card to your hand
         GameObject cardslot = Instantiate(cardSlotUI, cardSlotParent.transform);
