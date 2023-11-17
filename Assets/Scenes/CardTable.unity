@@ -1726,7 +1726,7 @@ MonoBehaviour:
   cardSpawnDistance: 0.7
   cardStoreThreshold: 1.5
   cardSlotUI: {fileID: 6158865721975327721, guid: 0066a7163b3ca5845abe25cc88c39400, type: 3}
-  testCard: {fileID: 2476957494123221776, guid: e6742ec3dd5828444acf63c69444f43b, type: 3}
+  testCard: {fileID: 7293515242401098917, guid: 0ca65fcb42379324981a7bc0cd9cb015, type: 3}
   cardSlotParent: {fileID: 493127285}
   cam: {fileID: 1521004170}
 --- !u!4 &2017794812
