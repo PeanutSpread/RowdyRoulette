@@ -6,11 +6,10 @@ using UnityEngine;
 public class CardComponent : MonoBehaviour
 {
     private Card card;
+    private string owner = "test";
 
     [SerializeField]
     private string name;
-
-    public GameObject prefab { get; set; }
 
     // Return the type of card
     public new CardType GetType()
@@ -26,6 +25,11 @@ public class CardComponent : MonoBehaviour
     public Card GetCard()
     {
         return card;
+    }
+
+    public string GetOwner()
+    {
+        return owner;
     }
 
     public void SetFace(Material face)

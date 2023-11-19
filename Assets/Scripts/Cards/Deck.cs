@@ -36,6 +36,15 @@ public class Deck : CardPile
 
     }
 
+    public void Pull(PlayerController playerController = null)
+    {
+        GameObject cardObject = TakeCard();
+        if (playerController != null)
+        {
+            playerController.AddCardToHand(cardObject);
+        }
+    }
+
     // Deal in players
     private void Deal() 
     {
@@ -88,25 +97,6 @@ public class Deck : CardPile
             card.InitCard(cardType, group);
             cardList.Add(card);
         }
-    }
-
-    new private void TakeCard()
-    {
-        bool isBomb = false;
-        if (cardList[0].GetType() == CardType.Bomb)
-            isBomb = true;
-
-        base.TakeCard();
-
-        if (isBomb)
-        {
-            EventManager.OnBombPull?.Invoke();
-        }
-    }
-
-    void OnMouseDown()
-    {
-        TakeCard();
     }
 
     // Start is called before the first frame update

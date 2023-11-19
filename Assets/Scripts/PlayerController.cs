@@ -13,66 +13,50 @@ public class PlayerController : MonoBehaviour
 
     [Header("Prefabs")]
     public GameObject cardSlotUI;
-    public GameObject testCard;
+    public GameObject cardPrefab;
 
     [Header("References")]
     public GameObject cardSlotParent;
     public GameObject cam;
 
-    // This is the card the player can interact with
-    // Only 1 card can be interacted with at a time
-    private GameObject interactableCardObj;
-    private GameObject interactableCardSlotObj;
-    private CardComponent interactableCard;
-
     private Player player;
-    private List<CardComponent> hand;
 
     private void Start()
     {
-        hand = new List<CardComponent>();
-        EventManager.onEndInteraction += OnLetGo;
-
-        player = new Player();
-
-        CardComponent card = new CardComponent();
-        card.prefab = testCard;
-        AddCardToHand(card);
+        player = new Player("test");
     }
 
     public void TakeOutCard(CardComponent card, GameObject cardSlot) 
     {
-        // Simulate taking a card thats in your hand
-        if (interactableCardObj != null) 
-        {
-            Destroy(interactableCardObj);
-        }
 
         // Put in front of cam
-        interactableCardObj = Instantiate(card.prefab, cam.transform.position + (cam.transform.forward * cardSpawnDistance), Quaternion.identity);
-        interactableCardSlotObj = cardSlot;
-        interactableCard = card;
+        GameObject cardObject = Instantiate(cardPrefab, cam.transform.position + (cam.transform.forward * cardSpawnDistance), Quaternion.identity);
+        cardObject.GetComponent<CardComponent>().Copy(card);
+
+        //interactableCardSlotObj = cardSlot;
+        //interactableCard = card;
     }
 
-    public void AddCardToHand(CardComponent card)
+    public void AddCardToHand(GameObject cardObject)
     {
+        CardComponent cardComponent = cardObject.GetComponent<CardComponent>();
+
         // Add a card to your hand
         GameObject cardslot = Instantiate(cardSlotUI, cardSlotParent.transform);
-        cardslot.GetComponent<CardSlotController>().Initialize(card, this);
+        cardslot.GetComponent<CardSlotController>().Initialize(cardComponent, this);
 
-        hand.Add(card);
+        player.TakeCard(cardComponent.GetCard());
     }
 
-    public void OnLetGo(GameObject obj)
+    public void OnLetGo(GameObject cardObject)
     {
         // If we let go of a card we own close to yourself, it will destroy it
-        if (obj == interactableCardObj) 
+        if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID()) 
         {
 
             if (Vector3.Distance(gameObject.transform.position, cardSlotParent.transform.position) < cardStoreThreshold) 
             {
-                Destroy(interactableCardObj);
-                interactableCard = null;
+                Destroy(cardObject);
             }
         }
     }

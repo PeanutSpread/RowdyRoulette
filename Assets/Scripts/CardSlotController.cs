@@ -9,6 +9,8 @@ public class CardSlotController : MonoBehaviour
     private PlayerController playerController;
     private CardComponent card;
 
+    public GameObject cardPrefab;
+
     // Always has
     public GameObject cardSlot;
 
@@ -19,8 +21,8 @@ public class CardSlotController : MonoBehaviour
         this.card = card;
 
         // Instantiate the card in the slot and make sure you cant move it
-        GameObject cardObj = Instantiate(card.prefab, cardSlot.transform);
-        cardObj.GetComponent<ObjectManipulator>().enabled = false;
+        GameObject cardObject = Instantiate(cardPrefab, cardSlot.transform);
+        cardObject.GetComponent<ObjectManipulator>().enabled = false;
     }
 
     public void OnPressed()

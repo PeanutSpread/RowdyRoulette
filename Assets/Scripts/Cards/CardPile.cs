@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(BoxCollider))]
 public abstract class CardPile : MonoBehaviour
@@ -29,18 +30,24 @@ public abstract class CardPile : MonoBehaviour
         return card;
     }
 
-    protected void TakeCard()
+    protected GameObject TakeCard()
     {
         if (cardList.Count > 0)
         {
             Card card = Hit();
             amount = GetCardCount();
-            GameObject cardObject = Instantiate(cardPrefab);
+            Vector3 spawnPos = gameObject.transform.position + new Vector3(0, 0.25f, 0);
+
+            GameObject cardObject = Instantiate(cardPrefab, spawnPos, gameObject.transform.rotation);
             cardObject.GetComponent<CardComponent>().Copy(card);
             cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int)card.GetType()]);
 
             ReduceHeight();
+
+            return cardObject;
         }
+
+        return null;
     }
 
 
