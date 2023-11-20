@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
         // Add a card to your hand
         GameObject cardslot = Instantiate(cardSlotUI, cardSlotParent.transform);
-        cardslot.GetComponent<CardSlotController>().Initialize(cardComponent, this);
+        cardslot.GetComponent<CardSlotController>().AddCard(cardComponent.GetCard(), cardObject.GetComponent<Renderer>().materials[1]);
 
         player.TakeCard(cardComponent.GetCard());
     }

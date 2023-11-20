@@ -7,26 +7,24 @@ public class CardSlotController : MonoBehaviour
 {
     // Assign on instantitate
     private PlayerController playerController;
-    private CardComponent card;
 
-    public GameObject cardPrefab;
+    public GameObject cardSlotPrefab;
 
-    // Always has
-    public GameObject cardSlot;
-
-    // Start is called before the first frame update
-    public void Initialize(CardComponent card, PlayerController playerController)
+    public void AddCard(CardComponent card, Material face)
     {
-        this.playerController = playerController;
-        this.card = card;
+        GameObject cardSlotObject = Instantiate(cardSlotPrefab);
+        cardSlotObject.GetComponent<CardSlot>().InitSlot(card.GetCard(), face);
 
-        // Instantiate the card in the slot and make sure you cant move it
-        GameObject cardObject = Instantiate(cardPrefab, cardSlot.transform);
-        cardObject.GetComponent<ObjectManipulator>().enabled = false;
     }
 
-    public void OnPressed()
+    // Start is called before the first frame update
+    public void Start()
     {
-        playerController.TakeOutCard(card, gameObject);
+        
+    }
+
+    public void Update()
+    {
+
     }
 }
