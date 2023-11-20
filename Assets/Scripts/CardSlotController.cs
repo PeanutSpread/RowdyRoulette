@@ -10,21 +10,11 @@ public class CardSlotController : MonoBehaviour
 
     public GameObject cardSlotPrefab;
 
-    public void AddCard(CardComponent card, Material face)
+    public void AddCard(GameObject cardObject)
     {
         GameObject cardSlotObject = Instantiate(cardSlotPrefab);
-        cardSlotObject.GetComponent<CardSlot>().InitSlot(card.GetCard(), face);
-
-    }
-
-    // Start is called before the first frame update
-    public void Start()
-    {
-        
-    }
-
-    public void Update()
-    {
+        cardSlotObject.transform.parent = gameObject.transform;
+        cardSlotObject.GetComponent<CardSlot>().InitSlot(cardObject);
 
     }
 }

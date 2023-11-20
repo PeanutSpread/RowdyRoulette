@@ -9,7 +9,7 @@ public class CardComponent : MonoBehaviour
     private string owner = "test";
 
     [SerializeField]
-    private string name;
+    private string cardTypeStr;
 
     // Return the type of card
     public new CardType GetType()
@@ -43,26 +43,26 @@ public class CardComponent : MonoBehaviour
     {
         card = new Card();
         card.InitCard(cardType, cardGroup);
-        name = Enum.GetName(typeof(CardType), card.GetType());
+        cardTypeStr = Enum.GetName(typeof(CardType), card.GetType());
     }
 
     public void InitCard(Card otherCard)
     {
         card = new Card();
         card.InitCard(otherCard.GetType(), otherCard.GetGroup());
-        name = Enum.GetName(typeof(CardType), card.GetType());
+        cardTypeStr = Enum.GetName(typeof(CardType), card.GetType());
     }
 
     public void Copy(Card otherCard)
     {
         card = otherCard;
-        name = Enum.GetName(typeof(CardType), card.GetType());
+        cardTypeStr = Enum.GetName(typeof(CardType), card.GetType());
     }
 
     public void Copy(CardComponent otherCard)
     {
         card = (otherCard.GetCard());
-        name = Enum.GetName(typeof(CardType), card.GetType());
+        cardTypeStr = Enum.GetName(typeof(CardType), card.GetType());
     }
 
     // Start is called before the first frame update

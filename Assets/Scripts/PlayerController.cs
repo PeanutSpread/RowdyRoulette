@@ -26,37 +26,31 @@ public class PlayerController : MonoBehaviour
         player = new Player("test");
     }
 
-    public void TakeOutCard(CardComponent card, GameObject cardSlot) 
+    public void TakeOutCard(GameObject cardObject) 
     {
-
+        GameObject cardSlot = cardObject.transform.parent.gameObject;
+        cardObject.transform.parent = null;
         // Put in front of cam
-        GameObject cardObject = Instantiate(cardPrefab, cam.transform.position + (cam.transform.forward * cardSpawnDistance), Quaternion.identity);
-        cardObject.GetComponent<CardComponent>().Copy(card);
+        cardObject.transform.position = cam.transform.position + (cam.transform.forward * cardSpawnDistance);
+        Destroy(cardSlot);
 
-        //interactableCardSlotObj = cardSlot;
-        //interactableCard = card;
     }
 
     public void AddCardToHand(GameObject cardObject)
     {
-        CardComponent cardComponent = cardObject.GetComponent<CardComponent>();
-
         // Add a card to your hand
         GameObject cardslot = Instantiate(cardSlotUI, cardSlotParent.transform);
-        cardslot.GetComponent<CardSlotController>().AddCard(cardComponent.GetCard(), cardObject.GetComponent<Renderer>().materials[1]);
-
-        player.TakeCard(cardComponent.GetCard());
+        cardSlotParent.GetComponent<CardSlotController>().AddCard(cardObject);
     }
 
-    public void OnLetGo(GameObject cardObject)
+    private void OnTriggerEnter(Collider other)
     {
         // If we let go of a card we own close to yourself, it will destroy it
-        if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID()) 
+        if (other.gameObject.tag == "Card")
         {
-
-            if (Vector3.Distance(gameObject.transform.position, cardSlotParent.transform.position) < cardStoreThreshold) 
+            if (other.gameObject.GetComponent<CardComponent>().GetOwner() == "Test")
             {
-                Destroy(cardObject);
+                AddCardToHand(other.gameObject);
             }
         }
     }

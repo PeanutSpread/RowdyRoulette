@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d374a0d0f1bb0344aa5290a17fc0ab7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: 
+  cardTypeStr: 
 --- !u!54 &2626821347442440484
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -39,10 +39,6 @@ public class Deck : CardPile
     public void Pull(PlayerController playerController = null)
     {
         GameObject cardObject = TakeCard();
-        if (playerController != null)
-        {
-            playerController.AddCardToHand(cardObject);
-        }
     }
 
     // Deal in players
