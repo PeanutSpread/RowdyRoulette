@@ -51,8 +51,11 @@ public class PlayerController : MonoBehaviour
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID())
             {
-                if (cardObject.GetComponent<InteractionCondition>().getHoldStatus() == false)
-                    AddCardToHand(cardObject);
+                if (cardObject.transform.parent.gameObject.GetComponent<CardSlot>() == null)
+                {
+                    if (cardObject.GetComponent<InteractionCondition>().getHoldStatus() == false)
+                        AddCardToHand(cardObject);
+                }
             }
         }
     }
