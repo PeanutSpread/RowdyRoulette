@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 9149783154781653137}
   - component: {fileID: -4212610518621939114}
   - component: {fileID: 2626821347442440484}
+  - component: {fileID: 8705226003457076037}
   - component: {fileID: -4782442843448318282}
   - component: {fileID: -7627112805213248327}
   m_Layer: 0
@@ -182,6 +183,18 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &8705226003457076037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7293515242401098917}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 727a2781f7a30c34a838ea89ffc98ac6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &-4782442843448318282
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,18 +315,66 @@ MonoBehaviour:
     active: 0
     onEntered:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onExited:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   isRaySelected:
     active: 0
     onEntered:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onExited:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   isPokeSelected:
     active: 0
     onEntered:
@@ -326,10 +387,34 @@ MonoBehaviour:
     active: 0
     onEntered:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldStart
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
     onExited:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 8705226003457076037}
+          m_TargetAssemblyTypeName: InteractionCondition, Assembly-CSharp
+          m_MethodName: OnHoldEnd
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
   isGazeHovered:
     active: 0
     onEntered:
@@ -410,7 +495,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   hostTransform: {fileID: 9149783154781653137}
-  allowedManipulations: 7
+  allowedManipulations: 3
   allowedInteractionTypes: -2147483641
   applyTorque: 1
   springForceSoftness: 0.1
@@ -429,7 +514,7 @@ MonoBehaviour:
   rotateLerpTime: 0.001
   scaleLerpTime: 0.001
   enableConstraints: 1
-  constraintsManager: {fileID: 0}
+  constraintsManager: {fileID: -4782442843448318282}
   manipulationLogicTypes:
     moveLogicType:
       reference: MixedReality.Toolkit.SpatialManipulation.MoveLogic, MixedReality.Toolkit.SpatialManipulation

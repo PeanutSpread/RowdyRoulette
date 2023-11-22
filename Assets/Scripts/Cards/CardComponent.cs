@@ -6,7 +6,7 @@ using UnityEngine;
 public class CardComponent : MonoBehaviour
 {
     private Card card;
-    private string owner = "test";
+    private string owner = "Test";
 
     [SerializeField]
     private string cardTypeStr;

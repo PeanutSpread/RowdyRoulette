@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
 
     private void Start()
     {
-        player = new Player("test");
+        player = new Player("Test");
     }
 
     public void TakeOutCard(GameObject cardObject) 
@@ -43,14 +43,16 @@ public class PlayerController : MonoBehaviour
         cardSlotParent.GetComponent<CardSlotController>().AddCard(cardObject);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         // If we let go of a card we own close to yourself, it will destroy it
         if (other.gameObject.tag == "Card")
         {
-            if (other.gameObject.GetComponent<CardComponent>().GetOwner() == "Test")
+            GameObject cardObject = other.transform.parent.gameObject;
+            if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID())
             {
-                AddCardToHand(other.gameObject);
+                if (cardObject.GetComponent<InteractionCondition>().getHoldStatus() == false)
+                    AddCardToHand(cardObject);
             }
         }
     }
