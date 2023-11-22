@@ -39,6 +39,13 @@ public class Deck : CardPile
     public void Pull(PlayerController playerController = null)
     {
         GameObject cardObject = TakeCard();
+        if (cardObject != null)
+        {
+            if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
+            {
+                EventManager.OnBombPull.Invoke();
+            }
+        }
     }
 
     // Deal in players
