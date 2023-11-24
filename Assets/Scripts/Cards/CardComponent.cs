@@ -32,6 +32,11 @@ public class CardComponent : MonoBehaviour
         return owner;
     }
 
+    public void SetOwner(string owner)
+    {
+        this.owner = owner;
+    }
+
     public void SetFace(Material face)
     {
         GameObject meshObject = gameObject.transform.GetChild(0).gameObject;
