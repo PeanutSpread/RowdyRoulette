@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
 {
     public GameObject cam;
 
-    private Player player;
+    public Player player;
 
     private void Start()
     {
@@ -33,7 +33,11 @@ public class PlayerController : MonoBehaviour
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID() && cardObject.GetComponent<InteractionCondition>().getHoldStatus())
             {
-                cardObject.GetComponent<Rigidbody>().isKinematic = true;
+                Debug.Log("entered");
+
+                cardObject.GetComponent<CardComponent>().useGravity = false;
+                cardObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
+
                 cardObject.transform.parent = cam.transform;
             }
         }
@@ -47,7 +51,10 @@ public class PlayerController : MonoBehaviour
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID())
             {
-                cardObject.GetComponent<Rigidbody>().isKinematic = false;
+                Debug.Log("left");
+                cardObject.GetComponent<CardComponent>().useGravity = true;
+                cardObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+
                 cardObject.transform.parent = null;
             }
         }

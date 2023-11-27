@@ -19,7 +19,7 @@ public class InteractionCondition : MonoBehaviour
 
     public void OnHoldEnd()
     {
-        isHeld=false;
+        isHeld = false;
     }
 
 

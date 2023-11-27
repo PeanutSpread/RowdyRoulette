@@ -2970,6 +2970,59 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8792026139570301515, guid: 9007a089555ca1b4a9b355762b9d24de, type: 3}
   m_PrefabInstance: {fileID: 1673832147}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1823928599
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1823928601}
+  - component: {fileID: 1823928600}
+  m_Layer: 0
+  m_Name: Boundary
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1823928600
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823928599}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 20, y: 0.1, z: 20}
+  m_Center: {x: 0, y: -0.41506612, z: 0}
+--- !u!4 &1823928601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1823928599}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.45, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1829830594 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2351505567455720332, guid: 4d7e2f87fefe0ba468719b15288b46e7, type: 3}
@@ -2988,7 +3041,7 @@ GameObject:
   - component: {fileID: 2017794813}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3005,11 +3058,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 913a4395a7c25f24ebeda4370e39c1b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardSpawnDistance: 0.7
-  cardStoreThreshold: 1.5
-  cardSlotUI: {fileID: 6158865721975327721, guid: 0066a7163b3ca5845abe25cc88c39400, type: 3}
-  cardPrefab: {fileID: 7293515242401098917, guid: 0ca65fcb42379324981a7bc0cd9cb015, type: 3}
-  cardSlotParent: {fileID: 493127285}
   cam: {fileID: 1521004170}
 --- !u!4 &2017794812
 Transform:
@@ -3346,3 +3394,4 @@ SceneRoots:
   - {fileID: 1147234056}
   - {fileID: 782628375}
   - {fileID: 720244604}
+  - {fileID: 1823928601}
