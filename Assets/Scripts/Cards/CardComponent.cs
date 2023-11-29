@@ -6,10 +6,30 @@ using UnityEngine;
 public class CardComponent : MonoBehaviour
 {
     private Card card;
-    private string owner = "Test";
+    private string owner;
 
     [SerializeField]
     private string cardTypeStr;
+
+    public bool useGravity = true;
+
+    InteractionCondition interactionCondition;
+    Rigidbody rb;
+    // Start is called before the first frame update
+    void Start()
+    {
+        interactionCondition = GetComponent<InteractionCondition>();
+        rb = GetComponent<Rigidbody>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (interactionCondition.getHoldStatus())
+            rb.constraints = RigidbodyConstraints.None;
+        else if (!useGravity)
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+    }
 
     // Return the type of card
     public new CardType GetType()
@@ -70,15 +90,5 @@ public class CardComponent : MonoBehaviour
         cardTypeStr = Enum.GetName(typeof(CardType), card.GetType());
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
