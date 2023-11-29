@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
-using Photon.Pun;
 using UnityEngine;
 
-public class NetworkManagement : MonoBehaviourPunCallbacks {
+public class NetManager : MonoBehaviour {
+    public GameObject player;
+    public Transform spawnPoint;
     void Start () {
         ConnectToPhoton ();
     }
@@ -22,8 +23,10 @@ public class NetworkManagement : MonoBehaviourPunCallbacks {
     }
 
     public override void OnJoinedRoom () {
-        Debug.Log ("Joined Room");
-        LoadCardTableScene ();
+        base.OnJoinedRoom ();
+
+        GameObject _player = PhotonNetwork.Instantiate (player.name, spawnPoint.position, Quaternion.identity);
+        _player.GetComponent<PlayerSetup> ().IsLocalPlayer ();
     }
 
     void LoadCardTableScene () {
