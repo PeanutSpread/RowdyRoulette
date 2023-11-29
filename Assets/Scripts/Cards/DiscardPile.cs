@@ -5,19 +5,6 @@ using UnityEngine;
 
 public class DiscardPile : CardPile
 {
-
-    public bool isBombActive = false;
-
-    public void OnEnable()
-    {
-        EventManager.OnBombPull += BombEventConditions;
-    }
-
-    public void OnDisable()
-    {
-        EventManager.OnBombPull -= BombEventConditions;
-    }
-
     // Play card or cards
     public void Play(Card card)
     {
@@ -29,38 +16,38 @@ public class DiscardPile : CardPile
         switch (cards.Count)
         {
             case 2:
-
+               
                 if (SameGroup(cards))
                 {
                     // TODO: Pick card at random
                 }
                 break;
-
+            
             case 3:
                 if (SameGroup(cards))
                 {
                     // TODO: Request a card of specific type
                 }
                 break;
-
+            
             case 5:
 
                 // TODO: Grab a card from discard pile
                 break;
 
-
+                
         }
     }
 
-    private bool SameGroup(List<Card> cards)
+    private bool SameGroup(List<Card> cards) 
     {
         int group = cards[0].GetGroup();
         foreach (Card card in cards)
         {
-            if (group != card.GetGroup())
-            {
+           if (group != card.GetGroup())
+           {
                 return false;
-            }
+           }
         }
         return true;
     }
@@ -68,20 +55,10 @@ public class DiscardPile : CardPile
     private void AddToPile(GameObject cardObject)
     {
         Card card = cardObject.transform.parent.gameObject.GetComponent<CardComponent>().GetCard();
-        if (!isBombActive || card.GetType() == CardType.Defuse)
-        {
-            cardList.Add(card);
-            SetFace(CardFaces[(int)card.GetType()]);
-            PhotonNetwork.Destroy(cardObject.transform.parent.gameObject);
-            IncreaseHeight();
-
-            if (isBombActive)
-            {
-                isBombActive = false;
-                EventManager.OnBombDefused.Invoke();
-                EventManager.OnNextTurn.Invoke();
-            }
-        }
+        cardList.Add(card);
+        SetFace(CardFaces[(int) card.GetType()]);
+        PhotonNetwork.Destroy(cardObject.transform.parent.gameObject);
+        IncreaseHeight();
     }
 
     public void SetFace(Material face)
@@ -98,17 +75,12 @@ public class DiscardPile : CardPile
         }
     }
 
-    private void BombEventConditions()
-    {
-        isBombActive = true;
-    }
-
-    // Start is called before the first frame update
-    new void Start()
+        // Start is called before the first frame update
+        new void Start()
     {
         base.Start();
         gameObject.GetComponent<BoxCollider>().isTrigger = true;
-
+        
     }
 
     // Update is called once per frame

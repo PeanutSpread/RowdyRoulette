@@ -33,18 +33,13 @@ public abstract class CardPile : MonoBehaviour
 
     protected GameObject TakeCard()
     {
-        Transform spawnTransform = gameObject.transform;
-        return TakeCard(spawnTransform);
-    }
-
-    protected GameObject TakeCard(Transform spawnTransform)
-    {
         if (cardList.Count > 0)
         {
             Card card = Hit();
             amount = GetCardCount();
+            Vector3 spawnPos = gameObject.transform.position + new Vector3(0, 0.25f, 0);
 
-            GameObject cardObject = PhotonNetwork.Instantiate("CardV2", transform.position + new Vector3(0, 0.25f, 0), gameObject.transform.rotation);
+            GameObject cardObject = PhotonNetwork.Instantiate("CardV2", spawnPos, gameObject.transform.rotation);
             cardObject.GetComponent<CardComponent>().Copy(card);
             cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int)card.GetType()]);
 
@@ -54,20 +49,6 @@ public abstract class CardPile : MonoBehaviour
         }
 
         return null;
-    }
-
-    protected GameObject createCard( CardType cardType, int group = 0)
-    {
-        return createCard(gameObject.transform, cardType, group);
-    }
-
-    protected GameObject createCard(Transform spawnTransform, CardType cardType, int group = 0)
-    {
-        GameObject cardObject = Instantiate(cardPrefab, spawnTransform.position + new Vector3(0, 0.25f, 0), spawnTransform.rotation);
-        cardObject.GetComponent<CardComponent>().InitCard(cardType, group);
-        cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int) cardType]);
-
-        return cardObject;
     }
 
 
