@@ -12,24 +12,37 @@ public class Deck : CardPile
     private readonly float[] CARD_PERCENTAGES = { 4f / 46f, 5f / 46f, 20f / 46f, 5f / 46f, 4f / 46f };
 
     private List<GameObject> playerObjects = new List<GameObject>();
+    private GameObject activeBombCard = null;
     private bool isInitiated = false;
     public bool isBombActive = false;
 
     public void OnEnable()
     {
         EventManager.OnGameStart += InitDeck;
-        EventManager.OnBombDefused += AllowCardPulling;
+        EventManager.OnBombDefused += BombDefusedActions;
     }
 
     public void OnDisable()
     {
         EventManager.OnGameStart -= InitDeck;
-        EventManager.OnBombDefused -= AllowCardPulling;
+        EventManager.OnBombDefused -= BombDefusedActions;
     }
 
     // Insert card back into the deck
     public void InsertCard(Card card, int index) {
         cardList.Insert(index, card);
+    }
+
+    public void InsertCard(CardComponent cardComponent, int index)
+    {
+        InsertCard(cardComponent.GetCard(), index);
+    }
+
+    public void InsertCard(GameObject cardObject, int index)
+    {
+        Card card = cardObject.GetComponent<CardComponent>().GetCard();
+        InsertCard(card, index);
+        Destroy(cardObject);
     }
 
     // Check the top [amount] cards
@@ -76,6 +89,7 @@ public class Deck : CardPile
                 {
                     EventManager.OnBombPull.Invoke();
                     isBombActive = true;
+                    activeBombCard = cardObject;
                 }
                 else
                 {
@@ -152,9 +166,13 @@ public class Deck : CardPile
         }
     }
 
-    private void AllowCardPulling()
+    private void BombDefusedActions()
     {
         isBombActive = false;
+        int rndIndex = UnityEngine.Random.Range(0, cardList.Count);
+        InsertCard(activeBombCard, rndIndex);
+        Debug.Log("Bomb inseted " + (rndIndex + 1) + " cards down.");
+
     }
 
     public void InitDeck()

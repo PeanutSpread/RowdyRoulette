@@ -69,18 +69,21 @@ public class DiscardPile : CardPile
     private void AddToPile(GameObject cardObject)
     {
         Card card = cardObject.transform.parent.gameObject.GetComponent<CardComponent>().GetCard();
-        if (!isBombActive && card.GetType() != CardType.Defuse || isBombActive && card.GetType() == CardType.Defuse)
+        if (card.GetType() != CardType.Bomb)
         {
-            cardList.Add(card);
-            SetFace(CardFaces[(int)card.GetType()]);
-            Destroy(cardObject.transform.parent.gameObject);
-            IncreaseHeight();
-
-            if (isBombActive)
+            if (!isBombActive && card.GetType() != CardType.Defuse || isBombActive && card.GetType() == CardType.Defuse)
             {
-                isBombActive = false;
-                EventManager.OnBombDefused.Invoke();
-                EventManager.OnNextTurn.Invoke();
+                cardList.Add(card);
+                SetFace(CardFaces[(int)card.GetType()]);
+                Destroy(cardObject.transform.parent.gameObject);
+                IncreaseHeight();
+
+                if (isBombActive)
+                {
+                    isBombActive = false;
+                    EventManager.OnBombDefused.Invoke();
+                    EventManager.OnNextTurn.Invoke();
+                }
             }
         }
     }
