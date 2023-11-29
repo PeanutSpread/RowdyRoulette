@@ -63,6 +63,8 @@ public class Deck : CardPile
 
         if (cardObject != null)
         {
+            playerController.AddCardToHand(cardObject);
+
             if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
             {
                 EventManager.OnBombPull.Invoke();
@@ -78,7 +80,7 @@ public class Deck : CardPile
     }
 
     // Deal in players
-    private void Deal() 
+    private void Deal()
     {
         foreach (GameObject playerObject in playerObjects)
         {
@@ -159,6 +161,6 @@ public class Deck : CardPile
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
