@@ -51,5 +51,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "MRTK project.sln"
+    "dotnet.defaultSolution": "RowdyRoulette.sln"
 }
