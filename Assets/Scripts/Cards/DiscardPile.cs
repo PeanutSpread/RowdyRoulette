@@ -78,6 +78,7 @@ public class DiscardPile : CardPile
             {
                 isBombActive = false;
                 EventManager.OnBombDefused.Invoke();
+                EventManager.OnNextTurn.Invoke();
             }
         }
     }

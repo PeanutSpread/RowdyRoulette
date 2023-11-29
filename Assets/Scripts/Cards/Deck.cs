@@ -11,6 +11,18 @@ public class Deck : CardPile
     private const int DEFAULT_DEFUSE_AMOUNT = 6;
     private readonly float[] CARD_PERCENTAGES = { 4f / 46f, 5f / 46f, 20f / 46f, 5f / 46f, 4f / 46f };
 
+    private List<GameObject> playerObjects = new List<GameObject>();
+
+    public void OnEnable()
+    {
+        EventManager.OnGameStart += InitDeck;
+    }
+
+    public void OnDisable()
+    {
+        EventManager.OnGameStart -= InitDeck;
+    }
+
     // Insert card back into the deck
     public void InsertCard(Card card, int index) {
         cardList.Insert(index, card);
@@ -36,22 +48,46 @@ public class Deck : CardPile
 
     }
 
+    public void AddPlayer(GameObject playerObject)
+    {
+        playerObjects.Add(playerObject);
+    }
+
     public void Pull(PlayerController playerController = null)
     {
-        GameObject cardObject = TakeCard();
+        GameObject cardObject = null;
+        if (playerController == null)
+            cardObject = TakeCard();
+        else
+            cardObject = TakeCard(playerController.GetSpawnTransform());
+
         if (cardObject != null)
         {
             if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
             {
                 EventManager.OnBombPull.Invoke();
+            } else {
+                EventManager.OnNextTurn.Invoke();
             }
         }
+    }
+
+    private void AddDefuse(PlayerController playerController)
+    {
+        createCard(playerController.GetSpawnTransform(), CardType.Defuse, 0);
     }
 
     // Deal in players
     private void Deal() 
     {
-        
+        foreach (GameObject playerObject in playerObjects)
+        {
+            AddDefuse(playerObject.GetComponent<PlayerController>());
+            for (int i = 0; i > 4; i++)
+            {
+                Pull(playerObject.GetComponent<PlayerController>());
+            }
+        }
     }
 
     private void Setup(int deckSize = DEFAULT_DECK_SIZE, int groupAmounts = DEFAULT_GROUP_AMOUNT, float[] cardPercentages = null)
@@ -102,8 +138,7 @@ public class Deck : CardPile
         }
     }
 
-    // Start is called before the first frame update
-    new void Start()
+    public void InitDeck()
     {
         base.Start();
 
@@ -113,7 +148,12 @@ public class Deck : CardPile
 
         amount = GetCardCount();
         SetupHeight();
+    }
 
+    // Start is called before the first frame update
+    new void Start()
+    {
+        InitDeck();
     }
 
     // Update is called once per frame
