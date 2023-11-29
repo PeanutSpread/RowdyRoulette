@@ -41,6 +41,8 @@ public class Deck : CardPile
         GameObject cardObject = TakeCard();
         if (cardObject != null)
         {
+            playerController.AddCardToHand(cardObject);
+
             if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
             {
                 EventManager.OnBombPull.Invoke();
