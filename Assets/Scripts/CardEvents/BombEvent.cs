@@ -7,11 +7,13 @@ public class BombEvent : MonoBehaviour
     public void OnEnable()
     {
         EventManager.OnBombPull += BombEventStart;
+        EventManager.OnBombDefused += BombDisappear;
     }
 
     public void OnDisable()
     {
         EventManager.OnBombPull -= BombEventStart;
+        EventManager.OnBombDefused -= BombDisappear;
     }
 
     private void BombAppear()

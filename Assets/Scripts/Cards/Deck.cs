@@ -13,15 +13,18 @@ public class Deck : CardPile
 
     private List<GameObject> playerObjects = new List<GameObject>();
     private bool isInitiated = false;
+    public bool isBombActive = false;
 
     public void OnEnable()
     {
         EventManager.OnGameStart += InitDeck;
+        EventManager.OnBombDefused += AllowCardPulling;
     }
 
     public void OnDisable()
     {
         EventManager.OnGameStart -= InitDeck;
+        EventManager.OnBombDefused -= AllowCardPulling;
     }
 
     // Insert card back into the deck
@@ -57,21 +60,27 @@ public class Deck : CardPile
 
     public void Pull(PlayerController playerController = null)
     {
-        GameObject cardObject = null;
-        if (playerController == null)
-            cardObject = TakeCard();
-        else
-            cardObject = TakeCard(playerController.GetSpawnTransform());
-
-        if (cardObject != null)
+        if (!isBombActive)
         {
-            playerController.AddCardToHand(cardObject);
+            GameObject cardObject = null;
+            if (playerController == null)
+                cardObject = TakeCard();
+            else
+                cardObject = TakeCard(playerController.GetSpawnTransform());
 
-            if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
+            if (cardObject != null)
             {
-                EventManager.OnBombPull.Invoke();
-            } else {
-                EventManager.OnNextTurn.Invoke();
+                playerController.AddCardToHand(cardObject);
+
+                if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
+                {
+                    EventManager.OnBombPull.Invoke();
+                    isBombActive = true;
+                }
+                else
+                {
+                    EventManager.OnNextTurn.Invoke();
+                }
             }
         }
     }
@@ -141,6 +150,11 @@ public class Deck : CardPile
             card.InitCard(cardType, group);
             cardList.Add(card);
         }
+    }
+
+    private void AllowCardPulling()
+    {
+        isBombActive = false;
     }
 
     public void InitDeck()

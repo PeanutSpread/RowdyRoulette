@@ -69,7 +69,7 @@ public class DiscardPile : CardPile
     private void AddToPile(GameObject cardObject)
     {
         Card card = cardObject.transform.parent.gameObject.GetComponent<CardComponent>().GetCard();
-        if (!isBombActive || card.GetType() == CardType.Defuse)
+        if (!isBombActive && card.GetType() != CardType.Defuse || isBombActive && card.GetType() == CardType.Defuse)
         {
             cardList.Add(card);
             SetFace(CardFaces[(int)card.GetType()]);
