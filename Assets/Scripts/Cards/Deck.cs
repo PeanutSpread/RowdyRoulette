@@ -183,7 +183,7 @@ public class Deck : CardPile
             Show();
             Setup();
             Deal();
-            AddBombsAndDefuses(3);
+            AddBombsAndDefuses(playerObjects.Count);
 
             amount = GetCardCount();
             SetupHeight();
