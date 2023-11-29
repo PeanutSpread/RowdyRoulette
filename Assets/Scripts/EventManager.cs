@@ -27,5 +27,33 @@ public class EventManager : MonoBehaviour
     public static SpecialCard OnNope;
     public static SpecialCard OnShuffle;
 
+    public GameObject BombObject;
+    public GameObject DiscardPileObject;
+    public bool onDisable = false;
+
+    private void EnableSequence()
+    {
+        BombObject.GetComponent<BombEvent>().OnEnable();
+        DiscardPileObject.GetComponent<DiscardPile>().OnEnable();
+    }
+
+    private void DisableSequence()
+    {
+        BombObject.GetComponent<BombEvent>().OnDisable();
+        DiscardPileObject.GetComponent<DiscardPile>().OnDisable();
+    }
+    
+    void Start()
+    {
+        EnableSequence();
+    }
+
+    private void Update()
+    {
+        if (onDisable)
+        {
+            DisableSequence();
+        }
+    }
 
 }
