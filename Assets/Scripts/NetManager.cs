@@ -7,12 +7,11 @@ using System.Linq;
 
 public class NetManager : MonoBehaviourPunCallbacks
 {
-    public GameObject player;
+    public GameObject playerPrefab;
     public List<Transform> spawnPoints;
-
     public Deck deck;
 
-    private GameObject ownerPlayer; 
+    private GameObject ownedPlayer;
 
     // Start is called before the first frame update
     void Start()
@@ -38,19 +37,22 @@ public class NetManager : MonoBehaviourPunCallbacks
     {
         base.OnJoinedRoom();
 
-        Debug.Log("joined");
+        Photon.Realtime.Player[] players = PhotonNetwork.PlayerList;
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+        int id = players.Length - 1; // Assign the player count as the ID
+        Player player = new Player($"Player{id}");
 
-        Debug.Log(players.Length + " TEST");
-        GameObject _player = PhotonNetwork.Instantiate(player.name, spawnPoints[players.Length].position, Quaternion.identity);
+        Debug.Log($"{id} joined");
+
+        GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[id].position, Quaternion.identity);
         _player.GetComponent<PlayerSetup>().IsLocalPlayer();
+        _player.GetComponent<PlayerController>().player = player;
 
-        ownerPlayer = _player;
+        ownedPlayer = _player;
     }
 
-    public void DeckPull() 
+    public void DeckPull()
     {
-        deck.Pull(ownerPlayer.GetComponent<PlayerController>());
+        deck.Pull(ownedPlayer.GetComponent<PlayerController>());
     }
 }

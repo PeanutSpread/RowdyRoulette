@@ -11,11 +11,6 @@ public class PlayerController : MonoBehaviour
 
     public Player player;
 
-    private void Start()
-    {
-        player = new Player("Test");
-    }
-
     public void AddCardToHand(GameObject cardObject)
     {
         // Add a card to your hand

@@ -1,3 +1,6 @@
+using MixedReality.Toolkit;
+using MixedReality.Toolkit.SpatialManipulation;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,11 +18,20 @@ public class CardComponent : MonoBehaviour
 
     InteractionCondition interactionCondition;
     Rigidbody rb;
+    PhotonView photonView;
+    ObjectManipulator objectManipulator;
     // Start is called before the first frame update
     void Start()
     {
         interactionCondition = GetComponent<InteractionCondition>();
         rb = GetComponent<Rigidbody>();
+        photonView = GetComponent<PhotonView>();
+
+        if (!photonView.IsMine)
+        {
+            rb.isKinematic = true;
+            objectManipulator.AllowedManipulations = TransformFlags.None;
+        }
     }
 
     // Update is called once per frame

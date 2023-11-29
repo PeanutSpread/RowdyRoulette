@@ -1,3 +1,4 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,7 +57,7 @@ public class DiscardPile : CardPile
         Card card = cardObject.transform.parent.gameObject.GetComponent<CardComponent>().GetCard();
         cardList.Add(card);
         SetFace(CardFaces[(int) card.GetType()]);
-        Destroy(cardObject.transform.parent.gameObject);
+        PhotonNetwork.Destroy(cardObject.transform.parent.gameObject);
         IncreaseHeight();
     }
 

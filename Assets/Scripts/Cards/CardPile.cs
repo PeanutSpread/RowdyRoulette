@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 [RequireComponent(typeof(BoxCollider))]
 public abstract class CardPile : MonoBehaviour
@@ -38,7 +39,7 @@ public abstract class CardPile : MonoBehaviour
             amount = GetCardCount();
             Vector3 spawnPos = gameObject.transform.position + new Vector3(0, 0.25f, 0);
 
-            GameObject cardObject = Instantiate(cardPrefab, spawnPos, gameObject.transform.rotation);
+            GameObject cardObject = PhotonNetwork.Instantiate("CardV2", spawnPos, gameObject.transform.rotation);
             cardObject.GetComponent<CardComponent>().Copy(card);
             cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int)card.GetType()]);
 

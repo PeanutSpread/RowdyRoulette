@@ -6,6 +6,7 @@ public class PlayerSetup : MonoBehaviour
 {
     public GameObject cam;
     public List<GameObject> scriptsToEnable;
+    public List<GameObject> scriptsToDisable;
 
     public void IsLocalPlayer()
     {
@@ -13,6 +14,11 @@ public class PlayerSetup : MonoBehaviour
         foreach (GameObject script in scriptsToEnable)
         {
             script.SetActive(true);
+        }
+
+        foreach (GameObject script in scriptsToDisable)
+        {
+            script.SetActive(false);
         }
     }
 }
