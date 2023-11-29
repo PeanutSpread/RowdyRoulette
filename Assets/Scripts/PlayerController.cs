@@ -33,8 +33,6 @@ public class PlayerController : MonoBehaviour
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID() && cardObject.GetComponent<InteractionCondition>().getHoldStatus())
             {
-                Debug.Log("entered");
-
                 cardObject.GetComponent<CardComponent>().useGravity = false;
                 cardObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
@@ -51,7 +49,6 @@ public class PlayerController : MonoBehaviour
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID())
             {
-                Debug.Log("left");
                 cardObject.GetComponent<CardComponent>().useGravity = true;
                 cardObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
 
@@ -59,21 +56,4 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    // If we let go of a card we own close to yourself, it will destroy it
-    //    if (other.gameObject.tag == "Card")
-    //    {
-    //        GameObject cardObject = other.transform.parent.gameObject;
-    //        if (cardObject.GetComponent<CardComponent>().GetOwner() == player.getID())
-    //        {
-    //            if (cardObject.transform.parent.gameObject.GetComponent<CardSlot>() == null)
-    //            {
-    //                if (cardObject.GetComponent<InteractionCondition>().getHoldStatus() == false)
-    //                    AddCardToHand(cardObject);
-    //            }
-    //        }
-    //    }
-    //}
 }

@@ -5,9 +5,14 @@ using UnityEngine;
 public class PlayerSetup : MonoBehaviour
 {
     public GameObject cam;
+    public List<GameObject> scriptsToEnable;
 
     public void IsLocalPlayer()
     {
         cam.SetActive(true);
+        foreach (GameObject script in scriptsToEnable)
+        {
+            script.SetActive(true);
+        }
     }
 }
