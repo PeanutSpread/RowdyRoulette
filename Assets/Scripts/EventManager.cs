@@ -35,9 +35,9 @@ public class EventManager : MonoBehaviour
     public static SpecialCard OnNope;
     public static SpecialCard OnShuffle;
 
-    public GameObject BombObject;
-    public GameObject DiscardPileObject;
-    public GameObject DeckObject;
+    public GameObject bombObject;
+    public GameObject discardPileObject;
+    public GameObject deckObject;
     public bool onDisable = false;
 
     public static string whoseTurn = "";
@@ -47,7 +47,7 @@ public class EventManager : MonoBehaviour
     {
         Player player = playerObject.GetComponent<PlayerController>().player;
         turnOrder.Add(player.getID());
-        DeckObject.GetComponent<Deck>().AddPlayer(playerObject);
+        deckObject.GetComponent<Deck>().AddPlayer(playerObject);
     }
 
     private void ProcessTurn()
@@ -57,26 +57,33 @@ public class EventManager : MonoBehaviour
         turnOrder.Add(playerID);
     }
 
+    private void Primer()
+    {
+        deckObject.GetComponent<Deck>().Hide();
+        discardPileObject.GetComponent<DiscardPile>().Hide();
+    }
+
     private void EnableSequence()
     {
-        BombObject.GetComponent<BombEvent>().OnEnable();
-        DiscardPileObject.GetComponent<DiscardPile>().OnEnable();
-        DeckObject.GetComponent <Deck>().OnEnable();
+        bombObject.GetComponent<BombEvent>().OnEnable();
+        discardPileObject.GetComponent<DiscardPile>().OnEnable();
+        deckObject.GetComponent <Deck>().OnEnable();
         EventManager.OnPlayerJoined += AddPlayer;
         EventManager.OnNextTurn += ProcessTurn;
     }
 
     private void DisableSequence()
     {
-        BombObject.GetComponent<BombEvent>().OnDisable();
-        DiscardPileObject.GetComponent<DiscardPile>().OnDisable();
-        DeckObject.GetComponent<Deck>().OnDisable();
+        bombObject.GetComponent<BombEvent>().OnDisable();
+        discardPileObject.GetComponent<DiscardPile>().OnDisable();
+        deckObject.GetComponent<Deck>().OnDisable();
         EventManager.OnPlayerJoined -= AddPlayer;
         EventManager.OnNextTurn -= ProcessTurn;
     }
     
     void Start()
     {
+        Primer();
         EnableSequence();
     }
 

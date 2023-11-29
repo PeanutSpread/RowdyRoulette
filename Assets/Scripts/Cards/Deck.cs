@@ -12,6 +12,7 @@ public class Deck : CardPile
     private readonly float[] CARD_PERCENTAGES = { 4f / 46f, 5f / 46f, 20f / 46f, 5f / 46f, 4f / 46f };
 
     private List<GameObject> playerObjects = new List<GameObject>();
+    private bool isInitiated = false;
 
     public void OnEnable()
     {
@@ -51,6 +52,7 @@ public class Deck : CardPile
     public void AddPlayer(GameObject playerObject)
     {
         playerObjects.Add(playerObject);
+        Debug.Log("Player Added");
     }
 
     public void Pull(PlayerController playerController = null)
@@ -82,10 +84,11 @@ public class Deck : CardPile
     // Deal in players
     private void Deal()
     {
+        Debug.Log("Deal Called");
         foreach (GameObject playerObject in playerObjects)
         {
             AddDefuse(playerObject.GetComponent<PlayerController>());
-            for (int i = 0; i > 4; i++)
+            for (int i = 0; i < 4; i++)
             {
                 Pull(playerObject.GetComponent<PlayerController>());
             }
@@ -142,20 +145,24 @@ public class Deck : CardPile
 
     public void InitDeck()
     {
-        base.Start();
+        if (!isInitiated)
+        {
+            base.Start();
+            Show();
+            Setup();
+            Deal();
+            AddBombsAndDefuses(3);
 
-        Setup();
-        Deal();
-        AddBombsAndDefuses(3);
-
-        amount = GetCardCount();
-        SetupHeight();
+            amount = GetCardCount();
+            SetupHeight();
+            isInitiated = true;
+        }
     }
 
     // Start is called before the first frame update
     new void Start()
     {
-        InitDeck();
+
     }
 
     // Update is called once per frame

@@ -30,6 +30,16 @@ public abstract class CardPile : MonoBehaviour
         return card;
     }
 
+    public void Show()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(true);
+    }
+
+    public void Hide()
+    {
+        gameObject.transform.GetChild(0).gameObject.SetActive(false);
+    }
+
     protected GameObject TakeCard()
     {
         Transform spawnTransform = gameObject.transform;

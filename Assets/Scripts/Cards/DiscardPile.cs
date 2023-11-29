@@ -10,11 +10,13 @@ public class DiscardPile : CardPile
     public void OnEnable()
     {
         EventManager.OnBombPull += BombEventConditions;
+        EventManager.OnGameStart += InitDiscardPile;
     }
 
     public void OnDisable()
     {
         EventManager.OnBombPull -= BombEventConditions;
+        EventManager.OnGameStart -= InitDiscardPile;
     }
 
     // Play card or cards
@@ -102,11 +104,16 @@ public class DiscardPile : CardPile
         isBombActive = true;
     }
 
-    // Start is called before the first frame update
-    new void Start()
+    public void InitDiscardPile()
     {
         base.Start();
         gameObject.GetComponent<BoxCollider>().isTrigger = true;
+        Show();
+    }
+
+    // Start is called before the first frame update
+    new void Start()
+    {
 
     }
 
