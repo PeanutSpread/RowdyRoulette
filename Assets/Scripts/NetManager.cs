@@ -10,8 +10,10 @@ public class NetManager : MonoBehaviourPunCallbacks
     public GameObject playerPrefab;
     public List<Transform> spawnPoints;
     public Deck deck;
+    public GameObject inputSim;
 
     private GameObject ownedPlayer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -47,6 +49,8 @@ public class NetManager : MonoBehaviourPunCallbacks
         GameObject _player = PhotonNetwork.Instantiate(playerPrefab.name, spawnPoints[id].position, Quaternion.identity);
         _player.GetComponent<PlayerSetup>().IsLocalPlayer();
         _player.GetComponent<PlayerController>().player = player;
+
+        inputSim.SetActive(true);
 
         ownedPlayer = _player;
     }

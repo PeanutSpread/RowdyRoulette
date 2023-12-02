@@ -10,6 +10,7 @@ public class Boundary : MonoBehaviour
         if (other.gameObject.tag == "Card")
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
             foreach (var player in players)
             {
                 var test = other.transform.parent.GetComponent<CardComponent>();

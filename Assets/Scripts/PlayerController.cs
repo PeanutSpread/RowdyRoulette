@@ -8,8 +8,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public GameObject cam;
-
+    public GameObject cardSpawn;
     public Player player;
+
+    public Transform GetSpawnTransform()
+    {
+        return cardSpawn.transform;
+    }
 
     public void AddCardToHand(GameObject cardObject)
     {
