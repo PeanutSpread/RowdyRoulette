@@ -6,6 +6,8 @@ using UnityEngine;
 public class CardComponent : MonoBehaviour
 {
     private Card card;
+
+    [SerializeField]
     private string owner;
 
     [SerializeField]

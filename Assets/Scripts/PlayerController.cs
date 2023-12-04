@@ -32,6 +32,24 @@ public class PlayerController : MonoBehaviour
         player.TakeCard(cardComponent.GetCard());
     }
 
+    public void RemoveCardFromHand(GameObject cardObject)
+    {
+        Card card = cardObject.GetComponent<CardComponent>().GetCard();
+        player.RemoveCard(card);
+    }
+
+    public bool HasDefuse()
+    {
+        foreach (Card card in player.getHand())
+        {
+            if (card.GetType() == CardType.Defuse)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         // If we let go of a card we own close to yourself, we will parent it to us

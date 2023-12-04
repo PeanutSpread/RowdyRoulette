@@ -21,8 +21,13 @@ public class Player
         hand.Add(card);
     }
 
-    public void PlayCard(Card card)
+    public void RemoveCard(Card card)
     {
         hand.Remove(card);
+    }
+
+    public List<Card> getHand()
+    {
+        return hand;
     }
 }

@@ -20,12 +20,14 @@ public class Deck : CardPile
     {
         EventManager.OnGameStart += InitDeck;
         EventManager.OnBombDefused += BombDefusedActions;
+        EventManager.OnBombExplode += BombRemovedActions;
     }
 
     public void OnDisable()
     {
         EventManager.OnGameStart -= InitDeck;
         EventManager.OnBombDefused -= BombDefusedActions;
+        EventManager.OnBombExplode -= BombRemovedActions;
     }
 
     // Insert card back into the deck
@@ -75,7 +77,7 @@ public class Deck : CardPile
     {
         if (!isBombActive)
         {
-            GameObject cardObject = null;
+            GameObject cardObject;
             if (playerController == null)
                 cardObject = TakeCard();
             else
@@ -87,9 +89,15 @@ public class Deck : CardPile
 
                 if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
                 {
-                    EventManager.OnBombPull.Invoke();
+                    EventManager.OnBombPull.Invoke(playerController);
                     isBombActive = true;
                     activeBombCard = cardObject;
+                    
+                    if (!playerController.HasDefuse())
+                    {
+                        EventManager.OnBombExplode.Invoke(playerController);
+                    }
+
                 }
                 else
                 {
@@ -101,7 +109,8 @@ public class Deck : CardPile
 
     private void AddDefuse(PlayerController playerController)
     {
-        createCard(playerController.GetSpawnTransform(), CardType.Defuse, 0);
+        GameObject cardObject = createCard(playerController.GetSpawnTransform(), CardType.Defuse, 0);
+        cardObject.GetComponent<CardComponent>().SetOwner(playerController.player.getID());
     }
 
     // Deal in players
@@ -166,13 +175,16 @@ public class Deck : CardPile
         }
     }
 
-    private void BombDefusedActions()
+    private void BombRemovedActions(PlayerController playerController = null)
     {
         isBombActive = false;
+    }
+    private void BombDefusedActions(PlayerController playerController = null)
+    {
+        BombRemovedActions();
         int rndIndex = UnityEngine.Random.Range(0, cardList.Count);
         InsertCard(activeBombCard, rndIndex);
         Debug.Log("Bomb inseted " + (rndIndex + 1) + " cards down.");
-
     }
 
     public void InitDeck()
@@ -183,7 +195,7 @@ public class Deck : CardPile
             Show();
             Setup();
             Deal();
-            AddBombsAndDefuses(playerObjects.Count);
+            AddBombsAndDefuses(3);
 
             amount = GetCardCount();
             SetupHeight();

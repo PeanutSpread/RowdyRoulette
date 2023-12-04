@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class DiscardPile : CardPile
 {
 
     public bool isBombActive = false;
+    private Dictionary<string, GameObject> players = new Dictionary<string, GameObject>();
 
     public void OnEnable()
     {
@@ -66,22 +68,37 @@ public class DiscardPile : CardPile
         return true;
     }
 
+    public void AddPlayer(GameObject playerObject)
+    {
+        string playerID = playerObject.GetComponent<PlayerController>().player.getID();
+        players[playerID] = playerObject;
+    }
+
+    private void RemoveCardFromHand(GameObject cardObject)
+    {
+        string playerID = cardObject.GetComponent<CardComponent>().GetOwner();
+        Debug.Log(playerID);
+        GameObject playerObject = players[playerID];
+        playerObject.GetComponent<PlayerController>().RemoveCardFromHand(cardObject);
+    }
+
     private void AddToPile(GameObject cardObject)
     {
-        Card card = cardObject.transform.parent.gameObject.GetComponent<CardComponent>().GetCard();
+        Card card = cardObject.GetComponent<CardComponent>().GetCard();
         if (card.GetType() != CardType.Bomb)
         {
             if (!isBombActive && card.GetType() != CardType.Defuse || isBombActive && card.GetType() == CardType.Defuse)
             {
+                RemoveCardFromHand(cardObject);
                 cardList.Add(card);
                 SetFace(CardFaces[(int)card.GetType()]);
-                Destroy(cardObject.transform.parent.gameObject);
+                Destroy(cardObject);
                 IncreaseHeight();
 
                 if (isBombActive)
                 {
                     isBombActive = false;
-                    EventManager.OnBombDefused.Invoke();
+                    EventManager.OnBombDefused.Invoke(null);
                     EventManager.OnNextTurn.Invoke();
                 }
             }
@@ -98,11 +115,11 @@ public class DiscardPile : CardPile
     {
         if (other.gameObject.tag == "Card")
         {
-            AddToPile(other.gameObject);
+            AddToPile(other.gameObject.transform.parent.gameObject);
         }
     }
 
-    private void BombEventConditions()
+    private void BombEventConditions(PlayerController playerController = null)
     {
         isBombActive = true;
     }

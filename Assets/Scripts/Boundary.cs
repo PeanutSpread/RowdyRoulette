@@ -15,7 +15,10 @@ public class Boundary : MonoBehaviour
                 var test = other.transform.parent.GetComponent<CardComponent>();
                 if (player.GetComponent<PlayerController>().player.getID() == other.transform.parent.GetComponent<CardComponent>().GetOwner())
                 {
-                    other.gameObject.transform.position = player.transform.position + new Vector3(0, 0, 1);
+                    GameObject cardObj = other.gameObject.transform.parent.gameObject;
+                    cardObj.gameObject.transform.position = player.GetComponent<PlayerController>().cardSpawn.transform.position;
+                    cardObj.gameObject.transform.rotation = player.GetComponent<PlayerController>().cardSpawn.transform.rotation;
+                    cardObj.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
                 }
             }
         }

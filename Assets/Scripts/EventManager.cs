@@ -24,7 +24,7 @@ public class EventManager : MonoBehaviour
     public delegate void User(GameObject playerObject);
     public static User OnPlayerJoined;
 
-    public delegate void Bomb();
+    public delegate void Bomb(PlayerController playerController);
     public static Bomb OnBombPull;
     public static Bomb OnBombDefused;
     public static Bomb OnBombExplode;
@@ -48,6 +48,7 @@ public class EventManager : MonoBehaviour
         Player player = playerObject.GetComponent<PlayerController>().player;
         turnOrder.Add(player.getID());
         deckObject.GetComponent<Deck>().AddPlayer(playerObject);
+        discardPileObject.GetComponent<DiscardPile>().AddPlayer(playerObject);
     }
 
     private void ProcessTurn()
@@ -55,6 +56,14 @@ public class EventManager : MonoBehaviour
         string playerID = turnOrder[0];
         turnOrder.RemoveAt(0);
         turnOrder.Add(playerID);
+        whoseTurn = turnOrder[0];
+    }
+
+    private void EliminatePlayer(PlayerController playerController)
+    {
+        string playerID = playerController.player.getID();
+        turnOrder.Remove(playerID);
+        whoseTurn = turnOrder[0];
     }
 
     private void Primer()
@@ -70,6 +79,7 @@ public class EventManager : MonoBehaviour
         deckObject.GetComponent <Deck>().OnEnable();
         EventManager.OnPlayerJoined += AddPlayer;
         EventManager.OnNextTurn += ProcessTurn;
+        EventManager.OnBombExplode += EliminatePlayer;
     }
 
     private void DisableSequence()
@@ -79,6 +89,7 @@ public class EventManager : MonoBehaviour
         deckObject.GetComponent<Deck>().OnDisable();
         EventManager.OnPlayerJoined -= AddPlayer;
         EventManager.OnNextTurn -= ProcessTurn;
+        EventManager.OnBombExplode -= EliminatePlayer;
     }
     
     void Start()
