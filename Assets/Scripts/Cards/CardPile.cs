@@ -53,7 +53,7 @@ public abstract class CardPile : MonoBehaviour
             Card card = Hit();
             amount = GetCardCount();
 
-            GameObject cardObject = Instantiate(cardPrefab, spawnTransform.position + new Vector3(0, 0.25f, 0), spawnTransform.rotation);
+            GameObject cardObject = Instantiate(cardPrefab, spawnTransform.position + PlayerController.objSpawnHeight, spawnTransform.rotation);
             cardObject.GetComponent<CardComponent>().Copy(card);
             cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int)card.GetType()]);
 

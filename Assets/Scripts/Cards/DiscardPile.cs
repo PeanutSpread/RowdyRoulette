@@ -13,12 +13,14 @@ public class DiscardPile : CardPile
     {
         EventManager.OnBombPull += BombEventConditions;
         EventManager.OnGameStart += InitDiscardPile;
+        EventManager.OnBombExplode += BombEventEnd;
     }
 
     public void OnDisable()
     {
         EventManager.OnBombPull -= BombEventConditions;
         EventManager.OnGameStart -= InitDiscardPile;
+        EventManager.OnBombExplode -= BombEventEnd;
     }
 
     // Play card or cards
@@ -97,7 +99,7 @@ public class DiscardPile : CardPile
 
                 if (isBombActive)
                 {
-                    isBombActive = false;
+                    BombEventEnd();
                     EventManager.OnBombDefused.Invoke(null);
                     EventManager.OnNextTurn.Invoke();
                 }
@@ -122,6 +124,11 @@ public class DiscardPile : CardPile
     private void BombEventConditions(PlayerController playerController = null)
     {
         isBombActive = true;
+    }
+
+    private void BombEventEnd(PlayerController playerController = null)
+    {
+        isBombActive=false;
     }
 
     public void InitDiscardPile()

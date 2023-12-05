@@ -33,6 +33,7 @@ public class Deck : CardPile
     // Insert card back into the deck
     public void InsertCard(Card card, int index) {
         cardList.Insert(index, card);
+        IncreaseHeight();
     }
 
     public void InsertCard(CardComponent cardComponent, int index)
@@ -73,36 +74,38 @@ public class Deck : CardPile
         Debug.Log("Player Added");
     }
 
-    public void Pull(PlayerController playerController = null)
+    public void PlayerPull(PlayerController playerController = null)
     {
-        if (!isBombActive)
+        if (!isBombActive && playerController.player.getID() == EventManager.whoseTurn)
+            Pull(playerController);
+    }
+    private void Pull(PlayerController playerController = null)
+    {
+        GameObject cardObject;
+        if (playerController == null)
+            cardObject = TakeCard();
+        else
+            cardObject = TakeCard(playerController.GetSpawnTransform());
+
+        if (cardObject != null)
         {
-            GameObject cardObject;
-            if (playerController == null)
-                cardObject = TakeCard();
-            else
-                cardObject = TakeCard(playerController.GetSpawnTransform());
+            playerController.AddCardToHand(cardObject);
 
-            if (cardObject != null)
+            if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
             {
-                playerController.AddCardToHand(cardObject);
+                EventManager.OnBombPull.Invoke(playerController);
+                isBombActive = true;
+                activeBombCard = cardObject;
 
-                if (cardObject.GetComponent<CardComponent>().GetType() == CardType.Bomb)
+                if (!playerController.HasDefuse())
                 {
-                    EventManager.OnBombPull.Invoke(playerController);
-                    isBombActive = true;
-                    activeBombCard = cardObject;
-                    
-                    if (!playerController.HasDefuse())
-                    {
-                        EventManager.OnBombExplode.Invoke(playerController);
-                    }
+                    EventManager.OnBombExplode.Invoke(playerController);
+                }
 
-                }
-                else
-                {
-                    EventManager.OnNextTurn.Invoke();
-                }
+            }
+            else
+            {
+                EventManager.OnNextTurn.Invoke();
             }
         }
     }
@@ -110,7 +113,7 @@ public class Deck : CardPile
     private void AddDefuse(PlayerController playerController)
     {
         GameObject cardObject = createCard(playerController.GetSpawnTransform(), CardType.Defuse, 0);
-        cardObject.GetComponent<CardComponent>().SetOwner(playerController.player.getID());
+        playerController.AddCardToHand(cardObject);
     }
 
     // Deal in players

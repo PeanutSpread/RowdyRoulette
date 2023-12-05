@@ -11,6 +11,8 @@ public class PlayerController : MonoBehaviour
     public GameObject cardSpawn;
     public Player player;
 
+    public static Vector3 objSpawnHeight = new Vector3(0, 0.25f, 0);
+
     private void Start()
     {
         player = new Player("Test");

@@ -63,6 +63,23 @@ public class EventManager : MonoBehaviour
     {
         string playerID = playerController.player.getID();
         turnOrder.Remove(playerID);
+        if (turnOrder.Count > 0)
+            whoseTurn = turnOrder[0];
+        else
+            whoseTurn = "";
+    }
+
+    private void RandomizeTurnOrder() 
+    {
+        int amnt = turnOrder.Count;
+        while (amnt > 1)
+        {
+            amnt--;
+            int ndx = UnityEngine.Random.Range(0, amnt + 1);
+            string value = turnOrder[ndx];
+            turnOrder[ndx] = turnOrder[amnt];
+            turnOrder[amnt] = value;
+        }
         whoseTurn = turnOrder[0];
     }
 
@@ -80,6 +97,7 @@ public class EventManager : MonoBehaviour
         EventManager.OnPlayerJoined += AddPlayer;
         EventManager.OnNextTurn += ProcessTurn;
         EventManager.OnBombExplode += EliminatePlayer;
+        EventManager.OnGameStart += RandomizeTurnOrder;
     }
 
     private void DisableSequence()
@@ -90,6 +108,7 @@ public class EventManager : MonoBehaviour
         EventManager.OnPlayerJoined -= AddPlayer;
         EventManager.OnNextTurn -= ProcessTurn;
         EventManager.OnBombExplode -= EliminatePlayer;
+        EventManager.OnGameStart -= RandomizeTurnOrder;
     }
     
     void Start()
