@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class NetManager : MonoBehaviourPunCallbacks {
     public GameObject playerPrefab;
+    public Transform mrtkTransform;
     public List<Transform> spawnPoints;
     public Deck deck;
 
@@ -27,7 +28,7 @@ public class NetManager : MonoBehaviourPunCallbacks {
     public override void OnJoinedLobby () {
         base.OnJoinedLobby ();
         Debug.Log ("Joining lobby");
-        PhotonNetwork.JoinOrCreateRoom ("test", null, null);
+        PhotonNetwork.JoinOrCreateRoom ("test2", null, null);
     }
 
     public override void OnJoinedRoom () {
@@ -46,6 +47,9 @@ public class NetManager : MonoBehaviourPunCallbacks {
             int spawnIndex = id % spawnPoints.Count; // Use modulus to wrap around if needed
 
             _player = PhotonNetwork.Instantiate (playerPrefab.name, spawnPoints[spawnIndex].position, Quaternion.identity);
+            mrtkTransform.transform.SetParent(_player.transform);
+            mrtkTransform.transform.localPosition = Vector3.zero;
+
             Debug.Log (_player.GetComponent<PlayerSetup> () == null);
             //_player.GetComponent<PlayerSetup> ().IsLocalPlayer ();
             _player.GetComponent<PlayerController> ().player = player;
