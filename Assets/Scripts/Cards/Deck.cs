@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class Deck : CardPile
 {
-    private const int DEFAULT_DECK_SIZE = 10;
+    private const int DEFAULT_DECK_SIZE = 46;
     private const int DEFAULT_GROUP_AMOUNT = 5;
     private const int DEFAULT_DEFUSE_AMOUNT = 1;
     private readonly float[] CARD_PERCENTAGES = { 4f / 46f, 5f / 46f, 20f / 46f, 5f / 46f, 4f / 46f };

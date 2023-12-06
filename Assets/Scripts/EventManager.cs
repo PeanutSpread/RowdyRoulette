@@ -1,3 +1,4 @@
+using ExitGames.Client.Photon.StructWrapping;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,6 +44,7 @@ public class EventManager : MonoBehaviour
     public GameObject discardPileObject;
     public GameObject deckObject;
     public GameObject scoreObject;
+    public GameObject restartButton;
 
     public static string whoseTurn = "";
     private List<string> turnOrder = new List<string>();
@@ -87,6 +89,15 @@ public class EventManager : MonoBehaviour
         whoseTurn = turnOrder[0];
     }
 
+    private void GameEnd(PlayerController playerController = null)
+    {
+        foreach (GameObject card in GameObject.FindGameObjectsWithTag("Card"))
+        {
+            Destroy(card);
+        }
+        restartButton.SetActive(true);
+    }
+
     private void Primer()
     {
         deckObject.GetComponent<Deck>().Hide();
@@ -102,6 +113,7 @@ public class EventManager : MonoBehaviour
         EventManager.OnPlayerJoined += AddPlayer;
         EventManager.OnNextTurn += ProcessTurn;
         EventManager.OnBombExploded += EliminatePlayer;
+        EventManager.OnBombExploded += GameEnd;
         EventManager.OnGameStart += RandomizeTurnOrder;
         EventManager.OnGameExit += DisableSequence;
     }
@@ -115,6 +127,7 @@ public class EventManager : MonoBehaviour
         EventManager.OnPlayerJoined -= AddPlayer;
         EventManager.OnNextTurn -= ProcessTurn;
         EventManager.OnBombExploded -= EliminatePlayer;
+        EventManager.OnBombExploded -= GameEnd;
         EventManager.OnGameStart -= RandomizeTurnOrder;
         EventManager.OnGameExit -= DisableSequence;
     }
