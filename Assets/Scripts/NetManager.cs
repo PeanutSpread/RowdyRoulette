@@ -14,6 +14,7 @@ public class NetManager : MonoBehaviourPunCallbacks {
 
     // Start is called before the first frame update
     void Start () {
+
         PhotonNetwork.ConnectUsingSettings ();
     }
 
@@ -45,7 +46,8 @@ public class NetManager : MonoBehaviourPunCallbacks {
             int spawnIndex = id % spawnPoints.Count; // Use modulus to wrap around if needed
 
             _player = PhotonNetwork.Instantiate (playerPrefab.name, spawnPoints[spawnIndex].position, Quaternion.identity);
-            _player.GetComponent<PlayerSetup> ().IsLocalPlayer ();
+            Debug.Log (_player.GetComponent<PlayerSetup> () == null);
+            //_player.GetComponent<PlayerSetup> ().IsLocalPlayer ();
             _player.GetComponent<PlayerController> ().player = player;
         } else {
             Debug.LogError ("No spawn points available!");
