@@ -31,7 +31,7 @@ public class BombEvent : MonoBehaviour
         gameObject.GetComponent<MeshRenderer>().enabled = true;
         foreach (CapsuleCollider collider in gameObject.GetComponents<CapsuleCollider>())
             collider.enabled = true;
-        gameObject.GetComponent<BoxCollider>().enabled = true;
+        gameObject.GetComponent<MeshCollider>().enabled = true;
         gameObject.GetComponent<Rigidbody>().isKinematic = false;
     }
 
