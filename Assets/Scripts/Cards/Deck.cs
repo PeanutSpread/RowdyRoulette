@@ -20,14 +20,14 @@ public class Deck : CardPile
     {
         EventManager.OnGameStart += InitDeck;
         EventManager.OnBombDefused += BombDefusedActions;
-        EventManager.OnBombExplode += BombRemovedActions;
+        EventManager.OnBombExploded += BombRemovedActions;
     }
 
     public void OnDisable()
     {
         EventManager.OnGameStart -= InitDeck;
         EventManager.OnBombDefused -= BombDefusedActions;
-        EventManager.OnBombExplode -= BombRemovedActions;
+        EventManager.OnBombExploded -= BombRemovedActions;
     }
 
     // Insert card back into the deck

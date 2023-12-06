@@ -1,3 +1,4 @@
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,17 +25,14 @@ public class Boundary : MonoBehaviour
 
         if (other.gameObject.tag == "Bomb")
         {
-            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-            foreach (var player in players)
-            {
-                if (player.GetComponent<PlayerController>().player.getID() == other.gameObject.GetComponent<BombEvent>().GetPlayerName())
-                {
-                    GameObject bombObj = other.gameObject;
-                    bombObj.gameObject.transform.position = player.GetComponent<PlayerController>().cardSpawn.transform.position + PlayerController.objSpawnHeight;
-                    bombObj.gameObject.transform.rotation = player.GetComponent<PlayerController>().cardSpawn.transform.rotation;
-                    bombObj.gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                }
-            }
+            GameObject bombObj = other.gameObject;
+            PlayerController playerController = bombObj.GetComponent<BombEvent>().GetPlayerController();
+            Vector3 euler = playerController.cardSpawn.transform.eulerAngles;
+            euler.x += 180;
+            euler.y -= 90;
+            bombObj.transform.position = playerController.cardSpawn.transform.position + PlayerController.objSpawnHeight + BombEvent.spacer;
+            bombObj.transform.eulerAngles = euler;
+            bombObj.GetComponent<Rigidbody>().velocity = Vector3.zero;
         }
     }
 }

@@ -13,14 +13,14 @@ public class DiscardPile : CardPile
     {
         EventManager.OnBombPull += BombEventConditions;
         EventManager.OnGameStart += InitDiscardPile;
-        EventManager.OnBombExplode += BombEventEnd;
+        EventManager.OnBombExploded += BombEventEnd;
     }
 
     public void OnDisable()
     {
         EventManager.OnBombPull -= BombEventConditions;
         EventManager.OnGameStart -= InitDiscardPile;
-        EventManager.OnBombExplode -= BombEventEnd;
+        EventManager.OnBombExploded -= BombEventEnd;
     }
 
     // Play card or cards

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BombEvent : MonoBehaviour
 {
-    private static Vector3 spacer = new Vector3(0, 0.1f, 0);
-    private string targetedPlayer = "";
+    public static Vector3 spacer = new Vector3(0, 0.1f, 0);
+    private PlayerController targetedPlayer;
 
     // For fuse animation
     private Vector3 Direction;
@@ -28,6 +28,11 @@ public class BombEvent : MonoBehaviour
     }
 
     public string GetPlayerName()
+    {
+        return targetedPlayer.player.getID();
+    }
+
+    public PlayerController GetPlayerController()
     {
         return targetedPlayer;
     }
@@ -81,7 +86,9 @@ public class BombEvent : MonoBehaviour
 
     private void BombExplode()
     {
-        gameObject.transform.GetChild(3).gameObject.SetActive(true);
+        GameObject explosion = gameObject.transform.GetChild(3).gameObject;
+        explosion.SetActive(true);
+        EventManager.OnBombExploded.Invoke(targetedPlayer);
     }
 
     public void BombEventStart(PlayerController playerController)
@@ -92,7 +99,7 @@ public class BombEvent : MonoBehaviour
         gameObject.transform.position = playerController.cardSpawn.transform.position + PlayerController.objSpawnHeight + spacer;
         gameObject.transform.eulerAngles = euler;
 
-        targetedPlayer = playerController.player.getID();
+        targetedPlayer = playerController;
 
         BombAppear();
     }
@@ -105,7 +112,6 @@ public class BombEvent : MonoBehaviour
     public void BombEventDefuse(PlayerController playerController)
     {
         BombDisappear();
-        targetedPlayer = "";
     }
 
 }
