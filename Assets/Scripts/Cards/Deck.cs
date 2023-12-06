@@ -187,7 +187,7 @@ public class Deck : CardPile
         BombRemovedActions();
         int rndIndex = UnityEngine.Random.Range(0, cardList.Count);
         InsertCard(activeBombCard, rndIndex);
-        Debug.Log("Bomb inseted " + (rndIndex + 1) + " cards down.");
+        Debug.Log("Bomb inserted " + (rndIndex + 1) + " cards down.");
     }
 
     public void InitDeck()

@@ -32,7 +32,6 @@ public class BombEvent : MonoBehaviour
         foreach (CapsuleCollider collider in gameObject.GetComponents<CapsuleCollider>())
             collider.enabled = true;
         gameObject.GetComponent<MeshCollider>().enabled = true;
-        gameObject.GetComponent<Rigidbody>().isKinematic = false;
     }
 
     private void BombDisappear()
@@ -41,7 +40,6 @@ public class BombEvent : MonoBehaviour
         foreach (CapsuleCollider collider in gameObject.GetComponents<CapsuleCollider>())
             collider.enabled = false;
         gameObject.GetComponent<BoxCollider>().enabled = false;
-        gameObject.GetComponent<Rigidbody>().isKinematic = true;
     }
 
     private void StartFuse()
