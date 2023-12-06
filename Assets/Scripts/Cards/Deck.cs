@@ -19,15 +19,17 @@ public class Deck : CardPile
     public void OnEnable()
     {
         EventManager.OnGameStart += InitDeck;
+        EventManager.OnBombPull += BombPlayedActions;
         EventManager.OnBombDefused += BombDefusedActions;
-        EventManager.OnBombExploded += BombRemovedActions;
+        //EventManager.OnBombExplode += BombRemovedActions;
     }
 
     public void OnDisable()
     {
         EventManager.OnGameStart -= InitDeck;
+        EventManager.OnBombPull += BombPlayedActions;
         EventManager.OnBombDefused -= BombDefusedActions;
-        EventManager.OnBombExploded -= BombRemovedActions;
+        //EventManager.OnBombExploded -= BombRemovedActions;
     }
 
     // Insert card back into the deck
@@ -106,6 +108,7 @@ public class Deck : CardPile
             else
             {
                 EventManager.OnNextTurn.Invoke();
+                EventManager.OnCardPull.Invoke();
             }
         }
     }
@@ -123,10 +126,12 @@ public class Deck : CardPile
         foreach (GameObject playerObject in playerObjects)
         {
             AddDefuse(playerObject.GetComponent<PlayerController>());
+            /**
             for (int i = 0; i < 4; i++)
             {
                 Pull(playerObject.GetComponent<PlayerController>());
             }
+            */
         }
     }
 
@@ -182,6 +187,12 @@ public class Deck : CardPile
     {
         isBombActive = false;
     }
+
+    private void BombPlayedActions(PlayerController playerController = null)
+    {
+        isBombActive = true;
+    }
+
     private void BombDefusedActions(PlayerController playerController = null)
     {
         BombRemovedActions();

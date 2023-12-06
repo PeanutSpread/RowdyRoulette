@@ -33,6 +33,7 @@ public class EventManager : MonoBehaviour
     public static Bomb OnBombExploded;
 
     public delegate void SpecialCard();
+    public static SpecialCard OnCardPull;
     public static SpecialCard OnFavour;
     public static SpecialCard OnFuture;
     public static SpecialCard OnNope;
@@ -97,6 +98,7 @@ public class EventManager : MonoBehaviour
         bombObject.GetComponent<BombEvent>().OnEnable();
         discardPileObject.GetComponent<DiscardPile>().OnEnable();
         deckObject.GetComponent <Deck>().OnEnable();
+        scoreObject.GetComponent<ScoreKeeper>().OnEnable();
         EventManager.OnPlayerJoined += AddPlayer;
         EventManager.OnNextTurn += ProcessTurn;
         EventManager.OnBombExploded += EliminatePlayer;
@@ -109,6 +111,7 @@ public class EventManager : MonoBehaviour
         bombObject.GetComponent<BombEvent>().OnDisable();
         discardPileObject.GetComponent<DiscardPile>().OnDisable();
         deckObject.GetComponent<Deck>().OnDisable();
+        scoreObject.GetComponent<ScoreKeeper>().OnDisable();
         EventManager.OnPlayerJoined -= AddPlayer;
         EventManager.OnNextTurn -= ProcessTurn;
         EventManager.OnBombExploded -= EliminatePlayer;
