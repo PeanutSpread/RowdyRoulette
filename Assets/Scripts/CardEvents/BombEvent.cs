@@ -6,6 +6,9 @@ public class BombEvent : MonoBehaviour
 {
     public static Vector3 spacer = new Vector3(0, 0.1f, 0);
     private PlayerController targetedPlayer;
+    public AudioSource audioSrc;
+    public AudioClip explosionClip;
+    public AudioClip fuseClip;
 
     // For fuse animation
     private Vector3 Direction;
@@ -64,7 +67,7 @@ public class BombEvent : MonoBehaviour
         transform.GetChild(2).position = startPoint + (Direction * scalar);
         transform.GetChild(2).gameObject.SetActive(true);
 
-        InvokeRepeating("FuseAnimate", 0, 2f);
+        InvokeRepeating("FuseAnimate", 1f, 1.2f);
     }
 
     private void FuseAnimate()
@@ -86,6 +89,7 @@ public class BombEvent : MonoBehaviour
 
     private void BombExplode()
     {
+        audioSrc.PlayOneShot(explosionClip);
         GameObject explosion = gameObject.transform.GetChild(3).gameObject;
         explosion.SetActive(true);
         EventManager.OnBombExploded.Invoke(targetedPlayer);
@@ -106,6 +110,7 @@ public class BombEvent : MonoBehaviour
 
     public void BombEventExplode(PlayerController playerController)
     {
+        audioSrc.PlayOneShot(fuseClip);
         StartFuse();
     }
 
