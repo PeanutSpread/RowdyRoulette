@@ -20,10 +20,10 @@ public class PlayerController : MonoBehaviour {
             photonView = gameObject.GetComponent<PhotonView> ();
         }
         if (photonView.IsMine) {
-            player = new Player ("Test");
-
             EventManager.OnPlayerJoined.Invoke (gameObject);
         }
+
+        cam = GameObject.Find ("Main Camera");
     }
 
     public Transform GetSpawnTransform () {
@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
 
     private void OnTriggerEnter (Collider other) {
         // If we let go of a card we own close to yourself, we will parent it to us
-        if (other.gameObject.tag == "Card" && photonView.IsMine) // Check if this is the local player
+        if (other.gameObject.tag == "Card") // Check if this is the local player
         {
             GameObject cardObject = other.transform.parent.gameObject;
             if (cardObject.GetComponent<CardComponent> ().GetOwner () == player.getID () && cardObject.GetComponent<InteractionCondition> ().getHoldStatus ()) {
@@ -63,19 +63,9 @@ public class PlayerController : MonoBehaviour {
                 cardObject.GetComponent<CardComponent> ().useGravity = false;
                 cardObject.GetComponent<Rigidbody> ().constraints = RigidbodyConstraints.FreezeAll;
 
-                // Photon Network Instantiate
-                photonView.RPC ("ParentCardObject", RpcTarget.AllBuffered, cardObject.GetPhotonView ().ViewID);
+                cardObject.transform.parent = cam.transform;
             }
         }
-    }
-
-    [PunRPC]
-    private void ParentCardObject (int viewID) {
-        // Find the GameObject with the specified PhotonView ID
-        GameObject cardObject = PhotonView.Find (viewID).gameObject;
-
-        // Parent the card object to the local player's camera
-        cardObject.transform.parent = cam.transform;
     }
 
     private void OnTriggerExit (Collider other) {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using UnityEngine.UIElements;
+using Photon.Pun;
 
 [RequireComponent(typeof(BoxCollider))]
 public abstract class CardPile : MonoBehaviour
@@ -53,7 +54,7 @@ public abstract class CardPile : MonoBehaviour
             Card card = Hit();
             amount = GetCardCount();
 
-            GameObject cardObject = Instantiate(cardPrefab, spawnTransform.position + PlayerController.objSpawnHeight, spawnTransform.rotation);
+            GameObject cardObject = PhotonNetwork.Instantiate("CardV2", spawnTransform.position + PlayerController.objSpawnHeight, spawnTransform.rotation);
             cardObject.GetComponent<CardComponent>().Copy(card);
             cardObject.GetComponent<CardComponent>().SetFace(CardFaces[(int)card.GetType()]);
 

@@ -46,7 +46,7 @@ public class NetManager : MonoBehaviourPunCallbacks {
         if (spawnPoints.Count > 0) {
             int spawnIndex = id % spawnPoints.Count; // Use modulus to wrap around if needed
 
-            _player = PhotonNetwork.Instantiate (playerPrefab.name, spawnPoints[spawnIndex].position, Quaternion.identity);
+            _player = PhotonNetwork.Instantiate (playerPrefab.name, spawnPoints[spawnIndex].position, Quaternion.Euler(0, 180, 0));
             mrtkTransform.transform.SetParent(_player.transform);
             mrtkTransform.transform.localPosition = Vector3.zero;
 
